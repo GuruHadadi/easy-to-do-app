@@ -4,6 +4,11 @@
     height: 60px;
 }
 
+.header .h1 {
+    color: #999;
+}
+
+
 body{
     background-color: #666;
 }

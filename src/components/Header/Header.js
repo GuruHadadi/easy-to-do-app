@@ -3,7 +3,11 @@ import classes from './Header.css';
 
 const header = (props) => {
     return (
-        <header className={'header'}>Easy To Do App</header>
+        <div>
+            <div className={'header'}>
+                <h4>Easy To Do App</h4>
+            </div>
+        </div>
     )
 };
 

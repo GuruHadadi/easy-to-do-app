@@ -1,0 +1,11 @@
+.Input{
+    width: 100%;
+    color: #fff;
+    border-bottom: 1px solid #666;
+    height: 60px;
+    outline: none;
+    background: transparent;
+    font-weight: 300;
+    font-size: 2rem;
+    -webkit-font-smoothing: antialiased;
+}
