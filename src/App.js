@@ -1,6 +1,7 @@
 import React from 'react';
 import Header from "./components/Header/Header";
 import TaskForm from "./containers/Tasks/TaskForm/TaskForm";
+import TaskTable from "./containers/Tasks/TaskTable/TaskTable";
 import TasksList from "./components/Tasks/TasksList/TasksList";
 
 const App = () => {
@@ -8,7 +9,7 @@ const App = () => {
     <div>
       <Header/>
       <TaskForm/>
-        <TasksList/>
+        <TaskTable />
     </div>
   );
 };
