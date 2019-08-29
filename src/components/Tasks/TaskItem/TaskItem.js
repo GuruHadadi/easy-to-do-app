@@ -50,18 +50,17 @@ class TaskItem extends Component {// ({name, onDelete}) => {
     };
 
     toggleCompleteFlag = (event) => {
-        this.props.onToggleComplete(this.props.taskId);
+        this.props.onToggleComplete(this.props.taskId, this.props.toggleFlag);
     };
 
 
     render() {
         const {editMode, name} = this.state;
         let style = null;
-        console.log('this.props.completedFlag', this.props.completedFlag);
         if (this.props.completedFlag) {
-            console.log('this.props.completedFlag', this.props.completedFlag);
             style = {backgroundColor: 'red'}
-        }
+        }else
+            style = {backgroundColor: 'inherit'}
         let item = null;
         if (!editMode) {
             item = (

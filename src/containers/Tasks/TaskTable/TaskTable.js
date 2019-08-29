@@ -19,34 +19,14 @@ class TaskTable extends Component {
         this.props.deleteTask(taskId);
     };
 
-    handleToggleCompleteFlag = (taskId) => {
-        this.props.toggleComplete(taskId);
+    handleToggleCompleteFlag = (taskId, toggleFlag) => {
+        this.props.toggleComplete(taskId, toggleFlag);
     };
 
     handleDisplayItems = (type) => {
         this.props.activeItemsList(type)
     };
 
-    // handleActiveItems = () => {
-    //     const list = this.props.tasks && this.props.tasks.filter((item, index) => {
-    //         if(item.completeFlag) {
-    //             return (
-    //                 <TaskItem
-    //                     taskId={index}
-    //                     onEdit={this.handleEdit}
-    //                     onDelete={this.handleDelete}
-    //                     onToggleComplete={this.handleToggleCompleteFlag}
-    //                     toggleFlag={item.completeFlag}
-    //                     name={item.title}
-    //                     completedFlag={item.completeFlag}
-    //                     key={item + index}
-    //                 />
-    //             )
-    //         }
-    //     })
-    //     this.setState({tasks: list})
-    //
-    // }
 
     renderTaskList() {
 
@@ -54,7 +34,6 @@ class TaskTable extends Component {
 
     render() {
         //logic..
-        console.log('this.props.tasks', this.props.tasks);
         //const tasks = this.props.tasksk
         return (
             <div>

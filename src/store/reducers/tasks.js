@@ -26,7 +26,6 @@ const reducer = (state = initialState, action) => {
                 ...newArr[action.payload.indexTask],
                 title: action.payload.taskTitle
             };
-            console.log('newArr', newArr);
             return {
                 ...state,
                 tasks: newArr,
@@ -43,9 +42,8 @@ const reducer = (state = initialState, action) => {
         case actionTypes.TOGGLE_COMPLETE_TASK:
             const newArrr = [...state.tasks];
             const newArrObj = {...newArrr[action.payload.indexTask]};
-            newArrObj.completeFlag = true;
+            newArrObj.completeFlag = !action.payload.completeFlag;
             newArrr[action.payload.indexTask] = newArrObj;
-            console.log('newArrr', newArrr);
             return {
                 ...state,
                 tasks: newArrr,
@@ -56,18 +54,14 @@ const reducer = (state = initialState, action) => {
             switch (action.payload.type){
                 case 'complete':
                     newArrrr = [...state.tasksCopy].filter(v => v.completeFlag);
-                    console.log('complete', newArrrr);
                     break;
                 case 'active':
                     newArrrr = [...state.tasksCopy].filter(v => !v.completeFlag);
-                    console.log('active', newArrrr);
                     break;
                 default:
                     newArrrr = [...state.tasksCopy];
-                    console.log('view-all', newArrrr);
                     break;
             }
-            console.log('newArrrr', newArrrr);
             return {
                 ...state,
                 tasks: newArrrr

@@ -21,10 +21,10 @@ export const deleteTask = (indexTask) => {
     }
 };
 
-export const toggleComplete = (indexTask) => {
+export const toggleComplete = (indexTask, completedFlag) => {
     return {
         type: actionTypes.TOGGLE_COMPLETE_TASK,
-        payload: {indexTask: indexTask}
+        payload: {indexTask: indexTask, completeFlag: completedFlag}
     }
 };
 
