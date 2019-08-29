@@ -10,18 +10,17 @@ class TaskForm extends Component {
 
     handleSubmit = (event) => {
         event.preventDefault();
-        this.props.createTask(this.state.value)
+        this.props.createTask(this.state.value);
         this.setState({value: ''})
     };
+
     handleOnchange = (event) => {
-        console.log('event', event.target.value);
         this.setState({
             value: event.target.value
         })
     };
 
     render() {
-        console.log('this.props', this.props.tasks);
         return (
             <div>
                 <form onSubmit={this.handleSubmit}>

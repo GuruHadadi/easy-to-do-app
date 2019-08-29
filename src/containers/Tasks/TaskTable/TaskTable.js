@@ -1,21 +1,80 @@
 import React, {Component} from 'react';
 import {connect} from "react-redux";
-import {createTask} from "../../../store/actions";
+import {createTask, editTask, deleteTask, toggleComplete, activeItemsList} from "../../../store/actions";
 import TaskItem from "../../../components/Tasks/TaskItem/TaskItem";
 import TaskList from "../../../components/Tasks/TasksList/TasksList";
+import TaskStatusPanel from "../../../components/Tasks/TaskStatusPanel/TaskStatusPanel";
 
 class TaskTable extends Component {
 
+    state = {
+        // tasks: null
+    };
+
+    handleEdit = (taskId, name) => {
+        this.props.editTask(taskId, name);
+    };
+
+    handleDelete = (taskId) => {
+        this.props.deleteTask(taskId);
+    };
+
+    handleToggleCompleteFlag = (taskId) => {
+        this.props.toggleComplete(taskId);
+    };
+
+    handleDisplayItems = (type) => {
+        this.props.activeItemsList(type)
+    };
+
+    // handleActiveItems = () => {
+    //     const list = this.props.tasks && this.props.tasks.filter((item, index) => {
+    //         if(item.completeFlag) {
+    //             return (
+    //                 <TaskItem
+    //                     taskId={index}
+    //                     onEdit={this.handleEdit}
+    //                     onDelete={this.handleDelete}
+    //                     onToggleComplete={this.handleToggleCompleteFlag}
+    //                     toggleFlag={item.completeFlag}
+    //                     name={item.title}
+    //                     completedFlag={item.completeFlag}
+    //                     key={item + index}
+    //                 />
+    //             )
+    //         }
+    //     })
+    //     this.setState({tasks: list})
+    //
+    // }
+
+    renderTaskList() {
+
+    }
+
     render() {
-        console.log('this.props', this.props.tasks);
+        //logic..
+        console.log('this.props.tasks', this.props.tasks);
+        //const tasks = this.props.tasksk
         return (
             <div>
+                <TaskStatusPanel>
+                    <button onClick={() => this.handleDisplayItems('viewall')}>View All</button>
+                    <button onClick={() => this.handleDisplayItems('active')}>Active</button>
+                    <button onClick={() => this.handleDisplayItems('complete')}>Completed</button>
+                </TaskStatusPanel>
                 <TaskList>{
                     this.props.tasks && this.props.tasks.map((item, index) => {
                         return (
                             <TaskItem
-                                name={item}
-                                key={item+index}
+                                taskId={index}
+                                onEdit={this.handleEdit}
+                                onDelete={this.handleDelete}
+                                onToggleComplete={this.handleToggleCompleteFlag}
+                                toggleFlag={item.completeFlag}
+                                name={item.title}
+                                completedFlag={item.completeFlag}
+                                key={item + index}
                             />
                         )
                     })
@@ -33,6 +92,6 @@ const mapStateToProps = (state) => {
     }
 };
 
-const mapDispatchToProps = {createTask};
+const mapDispatchToProps = {createTask, editTask, deleteTask, toggleComplete, activeItemsList};
 
 export default connect(mapStateToProps, mapDispatchToProps)(TaskTable);
