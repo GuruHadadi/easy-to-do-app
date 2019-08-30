@@ -1,11 +1,13 @@
-.Input{
-    width: 100%;
+.TaskForm{
+    width: 80%;
     color: #fff;
-    border-bottom: 1px solid #666;
-    height: 60px;
+    border-radius: 20px;
+    border: 2px solid grey;
+    height: 50px;
     outline: none;
     background: transparent;
     font-weight: 300;
     font-size: 2rem;
     -webkit-font-smoothing: antialiased;
+    margin: 5px;
 }

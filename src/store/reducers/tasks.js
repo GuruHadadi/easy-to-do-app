@@ -3,7 +3,8 @@ import * as actionTypes from '../actions/actionTypes';
 
 const initialState = {
     tasks: [],
-    tasksCopy: []
+    tasksCopy: [],
+    lastDeletedItem: null
 };
 
 
@@ -33,17 +34,39 @@ const reducer = (state = initialState, action) => {
             };
         case actionTypes.DELETE_TASK:
             const modifiedArr = [...state.tasks];
-            modifiedArr.splice([action.payload.indexTask],1);
+            console.log('before modifiedArr', modifiedArr.length);
+            console.log('before modifiedArr', JSON.stringify(modifiedArr));
+            const lastDelItem = modifiedArr.splice([action.payload.indexTask],1);
+            console.log('after modifiedArr', modifiedArr);
+            console.log('lastDelItem', lastDelItem);
             return {
                 ...state,
                 tasks: modifiedArr,
-                tasksCopy: modifiedArr
+                tasksCopy: modifiedArr,
+                lastDeletedItem: {lastDelItem: lastDelItem[0], indexTask: action.payload.indexTask}
+            };
+        case actionTypes.UNDO_TASK_DELETE:
+            const modifiedArr1 = [...state.tasks];
+            modifiedArr1.splice(state.lastDeletedItem.indexTask,0,state.lastDeletedItem.lastDelItem);
+            console.log('modifiedArr1', modifiedArr1);
+            return {
+                ...state,
+                tasks: modifiedArr1,
+                tasksCopy: modifiedArr1,
+                lastDeletedItem: null
             };
         case actionTypes.TOGGLE_COMPLETE_TASK:
             const newArrr = [...state.tasks];
             const newArrObj = {...newArrr[action.payload.indexTask]};
             newArrObj.completeFlag = !action.payload.completeFlag;
             newArrr[action.payload.indexTask] = newArrObj;
+            return {
+                ...state,
+                tasks: newArrr,
+                tasksCopy: newArrr
+            };
+        case actionTypes.GOOGLE_SIGN_IN:
+            //
             return {
                 ...state,
                 tasks: newArrr,

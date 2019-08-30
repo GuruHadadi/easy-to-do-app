@@ -1,0 +1,34 @@
+.TaskItem{
+    //width: 100%;
+    color: #fff;
+    border-bottom: 1px solid #666;
+    height: 60px;
+    outline: none;
+    background: transparent;
+    font-weight: 300;
+    font-size: 2rem;
+    -webkit-font-smoothing: antialiased;
+    display: flex;
+    align-items: center;
+}
+
+.TaskItem-text{
+    flex: 1;
+}
+.TaskItem-button{
+    margin: 0 5px;
+    border-radius: 50%;
+    padding: 10px;
+    display: flex;
+    align-items: center;
+}
+
+.TaskItem-buttons{
+    display: flex;
+    align-items: center;
+}
+
+.TaskItem-button img{
+    width: 16px;
+    height: 16px;
+}

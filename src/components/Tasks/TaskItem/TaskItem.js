@@ -1,4 +1,6 @@
 import React, {Component} from 'react';
+import './TaskItem.scss';
+import editImage from '../../../assets/images/edit.png';
 
 class TaskItem extends Component {// ({name, onDelete}) => {
 
@@ -50,33 +52,39 @@ class TaskItem extends Component {// ({name, onDelete}) => {
     };
 
     toggleCompleteFlag = (event) => {
+        console.log('this.props.taskId', this.props.taskId);
         this.props.onToggleComplete(this.props.taskId, this.props.toggleFlag);
     };
-
 
     render() {
         const {editMode, name} = this.state;
         let style = null;
         if (this.props.completedFlag) {
             style = {backgroundColor: 'red'}
-        }else
+        } else
             style = {backgroundColor: 'inherit'}
         let item = null;
         if (!editMode) {
             item = (
-                <li style={style}>
+                <li className='TaskItem' style={style}>
+                        <button className='TaskItem-button' onClick={this.toggleCompleteFlag}>Complete</button>
+                    <div className="TaskItem-text">
                     {name}
-                    <button onClick={this.handleEdit}>Edit</button>
-                    <button onClick={this.deleteTask}>Del</button>
-                    <button onClick={this.toggleCompleteFlag}>Toggle Complete</button>
+                    </div>
+                    <div className='TaskItem-buttons'>
+                        <button className='TaskItem-button' onClick={this.handleEdit}><img src={editImage}/></button>
+                        <button className='TaskItem-button' onClick={this.deleteTask}>Del</button>
+                    </div>
                 </li>
 
             )
         } else {
             item = <li>
-                <button onClick={this.handleCancel}>Cancel</button>
-                <input onKeyUp={this.handleKeyUp}
-                       onChange={this.handleChange} value={name}/>;
+                <button className='TaskItem-button' onClick={this.handleCancel}>Cancel</button>
+                <input
+                    autoFocus={true}
+                    onKeyUp={this.handleKeyUp}
+                    onChange={this.handleChange} value={name}/>;
             </li>
         }
 

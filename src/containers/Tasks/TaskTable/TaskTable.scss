@@ -1,0 +1,26 @@
+.TaskTable{
+    border: 2px solid grey;
+    width: 80%;
+    color: #fff;
+    //border-bottom: 1px solid #666;
+    //height: 60px;
+    //outline: none;
+    background: transparent;
+    font-weight: 300;
+    font-size: 2rem;
+    -webkit-font-smoothing: antialiased;
+}
+
+.TaskTable-input{
+    width: 30%;
+    color: #fff;
+    border-radius: 20px;
+    border: 2px solid grey;
+    height: 20px;
+    outline: none;
+    background: transparent;
+    font-weight: bold;
+    font-size: 1rem;
+    -webkit-font-smoothing: antialiased;
+    margin: 5px;
+}

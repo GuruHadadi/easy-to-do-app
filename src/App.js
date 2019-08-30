@@ -5,7 +5,7 @@ import TaskTable from "./containers/Tasks/TaskTable/TaskTable";
 
 const App = () => {
     return (
-        <div>
+        <div style={{margin: '10px', padding: '5px'}}>
             <Header/>
             <TaskForm/>
             <TaskTable/>

@@ -1,17 +1,26 @@
 import React, {Component} from 'react';
-import classes from './TaskForm.css';
+import './TaskForm.scss';
 import {connect} from "react-redux";
 import {createTask} from "../../../store/actions";
 
 class TaskForm extends Component {
+
     state = {
-        value: ''
+        value: '',
     };
+
+    myInputElement = React.createRef();
+
+    componentDidMount(){
+        this.myInputElement.current.focus()
+    }
 
     handleSubmit = (event) => {
         event.preventDefault();
-        this.props.createTask(this.state.value);
-        this.setState({value: ''})
+        if(this.state.value) {
+            this.props.createTask(this.state.value);
+            this.setState({value: ''})
+        }
     };
 
     handleOnchange = (event) => {
@@ -25,7 +34,8 @@ class TaskForm extends Component {
             <div>
                 <form onSubmit={this.handleSubmit}>
                     <input
-                        className='Input'
+                        ref={this.myInputElement}
+                        className='TaskForm'
                         placeholder='Enter your task here...'
                         type='text'
                         onChange={this.handleOnchange}
