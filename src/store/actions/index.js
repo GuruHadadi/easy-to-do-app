@@ -1,23 +1,50 @@
 import * as actionTypes from './actionTypes';
+import firebase from 'firebase';
+import axios from 'axios';
 
-export const createTask = (taskTitle) => {
+export const saveTask = (taskTitle, docName) => {
     return {
         type: actionTypes.CREATE_TASK,
-        payload: {taskTitle: taskTitle}
+        payload: {taskTitle: taskTitle, docName}
     }
 };
 
-export const editTask = (indexTask, taskTitle) => {
+
+export const editTaskAction = (taskTitle, completeFlag, docName) => {
     return {
         type: actionTypes.EDIT_TASK,
-        payload: {taskTitle: taskTitle, indexTask: indexTask}
+        payload: {taskTitle: taskTitle, completeFlag, docName}
     }
 };
 
-export const deleteTask = (indexTask) => {
+export const editTask = (task, taskTitle, userId) => {
+    return dispatch => {
+        axios.patch(`https://easy-todo-app-2fc3d.firebaseio.com/${userId}/${task.docName}.json`, {title: taskTitle, completeFlag: task.completeFlag}).then(res => {
+            console.log('res', res);
+            dispatch(editTaskAction(taskTitle, task.completeFlag, task.docName))
+        })
+        .catch(function (error) {
+            console.log('error', error);
+        });
+    }
+};
+
+export const deleteTaskAction = (docName) => {
     return {
         type: actionTypes.DELETE_TASK,
-        payload: {indexTask: indexTask}
+        payload: { docName }
+    }
+};
+
+export const deleteTask = (task, userId) => {
+    return dispatch => {
+        axios.delete(`https://easy-todo-app-2fc3d.firebaseio.com/${userId}/${task.docName}.json`).then(res => {
+            console.log('delete result', res);
+            dispatch(deleteTaskAction(task.docName))
+        })
+            .catch(function (error) {
+                console.log('error', error);
+            });
     }
 };
 
@@ -41,29 +68,86 @@ export const activeItemsList = (type) => {
     }
 };
 
-export const signIn = () => {
-    //  install firebase, thunk,
-    // const provider = new firebase.auth.GoogleAuthProvider();
-    // firebase.auth().signInWithPopup(provider).then(function(result) {
-    //     // This gives you a Google Access Token. You can use it to access the Google API.
-    //     var token = result.credential.accessToken;
-    //     // The signed-in user info.
-    //     var user = result.user;
-    //     // ...
-    // }).catch(function(error) {
-    //     // Handle Errors here.
-    //     var errorCode = error.code;
-    //     var errorMessage = error.message;
-    //     // The email of the user's account used.
-    //     var email = error.email;
-    //     // The firebase.auth.AuthCredential type that was used.
-    //     var credential = error.credential;
-    //     // ...
-    // });
-    // return {
-    //     type: actionTypes.GOOGLE_SIGN_IN,
-    //     payload: {result: }
-    // }
+const handleSignInWithGoogle = (userData, tasksData) => {
+    return {
+        type: actionTypes.GOOGLE_SIGN_IN,
+        payload: {user: userData, tasks: tasksData},
+    }
+};
+
+const handleSignOut = () => {
+    localStorage.removeItem('userId');
+    localStorage.removeItem('tasks');
+    localStorage.removeItem('uid');
+    return {
+        type: actionTypes.GOOGLE_SIGN_OUT,
+    }
+};
+
+export const signInWithGoogle = () => {
+    return dispatch => {
+        const provider = new firebase.auth.GoogleAuthProvider();
+        firebase.auth().signInWithPopup(provider).then(function (result) {
+            // This gives you a Google Access Token. You can use it to access the Google API.
+            const token = result.credential.accessToken;
+            // The signed-in user info.
+            const userData = result.user;
+            console.log('user uid', userData.uid);
+            localStorage.setItem('userId', userData.uid);
+            axios.get(`https://easy-todo-app-2fc3d.firebaseio.com/${userData.uid}.json`).then(tasksData => {
+                console.log('user Tasks', tasksData.data);
+                dispatch(handleSignInWithGoogle(userData, tasksData.data));
+            })
+            .catch(function (error) {
+                console.log('error', error);
+            });
+            // dispatch(handleSignInWithGoogle(user));
+            // dispatch(getTasksFromFirebase(user));
+        }).catch(function (error) {
+            const errorCode = error.code;
+            const errorMessage = error.message;
+            // The email of the user's account used.
+            const email = error.email;
+            // The firebase.auth.AuthCredential type that was used.
+            const credential = error.credential;
+            // ...
+        });
+    }
+};
+
+export const getTasksFromFirebase = (userData) => {
+    return dispatch => {
+        axios.get(`https://easy-todo-app-2fc3d.firebaseio.com/${userData.user.uid}.json`).then(res => {
+            console.log('res', res);
+            dispatch(handleSignInWithGoogle(userData));
+        })
+        .catch(function (error) {
+          console.log('error', error);
+        });
+    }
+};
+
+export const createTask = (taskTitle, userId, completeFlag=false) => {
+    return dispatch => {
+        //  TODO: if authenticated then save in server else not required
+        axios.post(`https://easy-todo-app-2fc3d.firebaseio.com/${userId}.json`, {title: taskTitle, completeFlag}).then(res => {
+            console.log('res', res);
+            dispatch(saveTask(taskTitle, res.data.name))
+        })
+        .catch(function (error) {
+          console.log('error', error);
+        });
+    }
+};
+export const signOutGoogle = () => {
+    return dispatch => {
+        const provider = new firebase.auth.GoogleAuthProvider();
+        firebase.auth().signOut().then(function() {
+            dispatch(handleSignOut())
+        }).catch(function(error) {
+            // An error happened.
+        });
+    }
 };
 
 //  [0,1,2,3]

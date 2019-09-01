@@ -1,6 +1,6 @@
 .TaskTable{
     border: 2px solid grey;
-    width: 80%;
+    width: 100%;
     color: #fff;
     //border-bottom: 1px solid #666;
     //height: 60px;
@@ -11,16 +11,47 @@
     -webkit-font-smoothing: antialiased;
 }
 
-.TaskTable-input{
-    width: 30%;
-    color: #fff;
-    border-radius: 20px;
+.TaskControlsPanel{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 5px;
+    div {
+        display: flex;
+        align-items: center;
+        button{
+            height: 31px;
+            margin-right: 5px;
+            align-items: center;
+            border-radius: 5px;
+        }
+    }
+}
+
+//.TaskTable-input{
+//    width: 30%;
+//    color: #fff;
+//    border-radius: 20px;
+//    border: 2px solid grey;
+//    height: 20px;
+//    outline: none;
+//    background: transparent;
+//    font-weight: bold;
+//    font-size: 1rem;
+//    -webkit-font-smoothing: antialiased;
+//    margin: 5px;
+//}
+
+.TaskTable-input {
+    width: 25%;
+    border-radius: 5px;
     border: 2px solid grey;
     height: 20px;
     outline: none;
     background: transparent;
-    font-weight: bold;
+    font-weight: 300;
     font-size: 1rem;
     -webkit-font-smoothing: antialiased;
-    margin: 5px;
+    margin-bottom: 10px;
+    padding: 5px;
 }

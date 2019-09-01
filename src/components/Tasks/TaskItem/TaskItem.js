@@ -1,6 +1,8 @@
 import React, {Component} from 'react';
 import './TaskItem.scss';
 import editImage from '../../../assets/images/edit.png';
+import deleteImage from '../../../assets/images/delete.png';
+import completeImage from '../../../assets/images/complete.png';
 
 class TaskItem extends Component {// ({name, onDelete}) => {
 
@@ -44,15 +46,15 @@ class TaskItem extends Component {// ({name, onDelete}) => {
     };
 
     editTask = (event) => {
-        this.props.onEdit(this.props.taskId, event.target.value);
+        this.props.onEdit(this.props.task, event.target.value);
+        // this.props.onEdit(this.props.taskId, event.target.value, this.props.completedFlag);
     };
 
     deleteTask = (event) => {
-        this.props.onDelete(this.props.taskId);
+        this.props.onDelete(this.props.task);
     };
 
     toggleCompleteFlag = (event) => {
-        console.log('this.props.taskId', this.props.taskId);
         this.props.onToggleComplete(this.props.taskId, this.props.toggleFlag);
     };
 
@@ -67,24 +69,28 @@ class TaskItem extends Component {// ({name, onDelete}) => {
         if (!editMode) {
             item = (
                 <li className='TaskItem' style={style}>
-                        <button className='TaskItem-button' onClick={this.toggleCompleteFlag}>Complete</button>
+                    <button className='TaskItem-button' onClick={this.toggleCompleteFlag}><img src={completeImage}/>
+                    </button>
                     <div className="TaskItem-text">
-                    {name}
+                        {name}
                     </div>
                     <div className='TaskItem-buttons'>
                         <button className='TaskItem-button' onClick={this.handleEdit}><img src={editImage}/></button>
-                        <button className='TaskItem-button' onClick={this.deleteTask}>Del</button>
+                        <button className='TaskItem-button' onClick={this.deleteTask}><img src={deleteImage}/></button>
                     </div>
                 </li>
 
             )
         } else {
             item = <li>
-                <button className='TaskItem-button' onClick={this.handleCancel}>Cancel</button>
-                <input
-                    autoFocus={true}
-                    onKeyUp={this.handleKeyUp}
-                    onChange={this.handleChange} value={name}/>;
+                <div className='edit-mode'>
+                    <input
+                        className='TaskItem-edit'
+                        autoFocus={true}
+                        onKeyUp={this.handleKeyUp}
+                        onChange={this.handleChange} value={name}/>;
+                    <button className='TaskItem-button' onClick={this.handleCancel}>Cancel</button>
+                </div>
             </li>
         }
 

@@ -4,7 +4,12 @@ import * as actionTypes from '../actions/actionTypes';
 const initialState = {
     tasks: [],
     tasksCopy: [],
-    lastDeletedItem: null
+    lastDeletedItem: null,
+    // authenticated: !!localStorage.getItem('userId'),
+    authenticated: false,
+    user: null,
+    // userId: localStorage.getItem('userId')
+    userId: null
 };
 
 
@@ -14,41 +19,43 @@ const reducer = (state = initialState, action) => {
             const tasks = state.tasks.concat(
                 {
                     title: action.payload.taskTitle,
-                    completeFlag: false
+                    completeFlag: false,
+                    docName: action.payload.docName
                 });
+            localStorage.setItem('tasks', JSON.stringify(tasks));
             return {
                 ...state,
                 tasks: tasks,
                 tasksCopy: tasks
             };
         case actionTypes.EDIT_TASK:
-            const newArr = [...state.tasks];
-            newArr[action.payload.indexTask] = {
-                ...newArr[action.payload.indexTask],
-                title: action.payload.taskTitle
-            };
+            const newArr = state.tasks.map(task => {
+                if ( task.docName === action.payload.docName ) {
+                    return {
+                        ...task,
+                        title: action.payload.taskTitle,
+                        completeFlag: action.payload.completeFlag,
+                    };
+                }
+                return task
+            });
+            localStorage.setItem('tasks', JSON.stringify(newArr));
             return {
                 ...state,
                 tasks: newArr,
                 tasksCopy: newArr
             };
         case actionTypes.DELETE_TASK:
-            const modifiedArr = [...state.tasks];
-            console.log('before modifiedArr', modifiedArr.length);
-            console.log('before modifiedArr', JSON.stringify(modifiedArr));
-            const lastDelItem = modifiedArr.splice([action.payload.indexTask],1);
-            console.log('after modifiedArr', modifiedArr);
-            console.log('lastDelItem', lastDelItem);
+            const modifiedArr = [...state.tasks].filter(v => v.docName !== action.payload.docName);
             return {
                 ...state,
                 tasks: modifiedArr,
                 tasksCopy: modifiedArr,
-                lastDeletedItem: {lastDelItem: lastDelItem[0], indexTask: action.payload.indexTask}
+                lastDeletedItem: state.tasks.find(v => v.docName === action.payload.docName)
             };
         case actionTypes.UNDO_TASK_DELETE:
             const modifiedArr1 = [...state.tasks];
             modifiedArr1.splice(state.lastDeletedItem.indexTask,0,state.lastDeletedItem.lastDelItem);
-            console.log('modifiedArr1', modifiedArr1);
             return {
                 ...state,
                 tasks: modifiedArr1,
@@ -66,11 +73,24 @@ const reducer = (state = initialState, action) => {
                 tasksCopy: newArrr
             };
         case actionTypes.GOOGLE_SIGN_IN:
-            //
+            console.log('action.payload.tasks', action.payload.tasks);
+            const serverTasks = action.payload.tasks ?
+                Object.keys(action.payload.tasks).map(v => ({ ...action.payload.tasks[v], docName: v })) : state.tasks;
+            localStorage.setItem('tasks', JSON.stringify(serverTasks));
             return {
                 ...state,
-                tasks: newArrr,
-                tasksCopy: newArrr
+                authenticated: true,
+                userName: action.payload.displayName,
+                userId: action.payload.user.uid,
+                tasks: serverTasks,
+                tasksCopy: serverTasks,
+            };
+        case actionTypes.GOOGLE_SIGN_OUT:
+            console.log('GOOGLE_SIGN_OUT');
+            return {
+                ...state,
+                authenticated: false,
+                user: null
             };
         case actionTypes.DISPLAY_ACTIVE_ITEMS:
             let newArrrr = [];

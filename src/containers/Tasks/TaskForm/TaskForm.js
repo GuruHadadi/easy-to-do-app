@@ -18,7 +18,8 @@ class TaskForm extends Component {
     handleSubmit = (event) => {
         event.preventDefault();
         if(this.state.value) {
-            this.props.createTask(this.state.value);
+            console.log('this.props.userId', this.props.userId);
+            this.props.createTask(this.state.value, this.props.userId);
             this.setState({value: ''})
         }
     };
@@ -31,12 +32,14 @@ class TaskForm extends Component {
 
     render() {
         return (
-            <div>
+            <div style={{padding: '20px'}}>
                 <form onSubmit={this.handleSubmit}>
                     <input
+                        // disabled={!this.props.authenticated}
                         ref={this.myInputElement}
                         className='TaskForm'
-                        placeholder='Enter your task here...'
+                        // placeholder={this.props.authenticated ? 'Enter your task here...' : 'Please login to add tasks..'}
+                        placeholder={true ? 'Enter your task here...' : 'Please login to add tasks..'}
                         type='text'
                         onChange={this.handleOnchange}
                         value={this.state.value}
@@ -49,7 +52,9 @@ class TaskForm extends Component {
 
 const mapStateToProps = (state) => {
     return {
-        tasks: state.root.tasks
+        tasks: state.root.tasks,
+        userId: state.root.userId,
+        authenticated: state.root.authenticated
     }
 };
 
