@@ -1,68 +1,83 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# Easy Todo app with React Redux, and Firebase
+A simple easy todo app example built with [React Redux](https://github.com/reactjs/react-redux), and [Firebase](https://firebase.google.com/).
 
-## Available Scripts
+Demo link is here - [To-do-live-app](https://easy-todo-app-2fc3d.firebaseapp.com)
 
-In the project directory, you can run:
 
-### `npm start`
+## Features
+- add edit and remove tasks
+- view all, active, completed tasks
+- google sign-in
+- save user data in firebase
 
-Runs the app in the development mode.<br>
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+## Following tech stack is used
 
-The page will reload if you make edits.<br>
-You will also see any lint errors in the console.
+- Create React App
+- React
+- Redux, Redux Thunk
+- Redux Devtools Extension for Chrome
+- Firebase SDK with OAuth authentication
+- little bit of SASS
 
-### `npm test`
+###### Note:
+I liked the repo https://github.com/r-park/todo-react-redux and I have tried to kind of recreate it. The code structure and logic is totally different from original repo.
 
-Launches the test runner in the interactive watch mode.<br>
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+Quick Start
+-----------
 
-### `npm run build`
+```shell
+$ git clone https://github.com/GuruHadadi/easy-to-do-app.git
+$ cd easy-to-do-app
+$ npm install
+$ npm start
+```
 
-Builds the app for production to the `build` folder.<br>
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## Deploying to Firebase
+#### Prerequisites:
+- Create a free Firebase account at https://firebase.google.com
+- Create a project from your [Firebase account console](https://console.firebase.google.com)
+- Configure the authentication providers for your Firebase project from your Firebase account console
 
-The build is minified and the filenames include the hashes.<br>
-Your app is ready to be deployed!
+#### Configure this app with your project-specific details:
+```json
+// .firebaserc
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+{
+  "projects": {
+    "default": "your-project-id"
+  }
+}
+```
 
-### `npm run eject`
+```javascript
+// src/firebase/config.js
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+export const firebaseConfig = {
+  apiKey: 'your api key',
+  authDomain: 'your-project-id.firebaseapp.com',
+  databaseURL: 'https://your-project-id.firebaseio.com',
+  storageBucket: 'your-project-id.appspot.com'
+};
+```
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+#### Install firebase-tools:
+```shell
+$ npm install -g firebase-tools
+```
 
-Instead, it will copy all the configuration files and the transitive dependencies (Webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+#### Build and deploy the app:
+```shell
+$ npm run build
+$ firebase login
+$ firebase use default
+$ firebase deploy
+```
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
 
-## Learn More
+## NPM Commands
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
-
-### Analyzing the Bundle Size
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
-
-### Making a Progressive Web App
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
-
-### Advanced Configuration
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
-
-### Deployment
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
-
-### `npm run build` fails to minify
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+|Script|Description|
+|---|---|
+|`npm start`|Start webpack development server @ `localhost:3000`|
+|`npm run build`|Build the application to `./build` directory|
+|`npm test`|Test the application; watch for changes and retest|

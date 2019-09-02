@@ -1,26 +1,22 @@
 import React from 'react';
-import logo from './logo.svg';
+import Header from "./containers/Header/Header";
+import TaskForm from "./containers/Tasks/TaskForm/TaskForm";
+import TaskTable from "./containers/Tasks/TaskTable/TaskTable";
+import firebase from "firebase";
+import { firebaseConfig } from './config/config';
 import './App.scss';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
+const App = ( props ) => {
+    let defaultProject = firebase.initializeApp(firebaseConfig);
+    const database = firebase.database();
+    let x = database.ref('text').on('value', (snapshot) => {});
+    return (
+        <div className='App'>
+            <Header {...props}/>
+            <TaskForm/>
+            <TaskTable/>
+        </div>
+    );
+};
 
 export default App;

@@ -1,0 +1,57 @@
+.TaskItem{
+    //width: 100%;
+    color: #fff;
+    border-bottom: 1px solid #666;
+    height: 60px;
+    outline: none;
+    background: transparent;
+    font-weight: 300;
+    font-size: 2rem;
+    -webkit-font-smoothing: antialiased;
+    display: flex;
+    align-items: center;
+}
+
+.TaskItem-text{
+    flex: 1;
+    color: #353434;
+
+}
+.TaskItem-edit{
+    flex: 1;
+    color: #353434;
+    width: 25%;
+    border-radius: 5px;
+    border: 2px solid grey;
+    height: 20px;
+    outline: none;
+    background: transparent;
+    font-weight: 300;
+    font-size: 1rem;
+    -webkit-font-smoothing: antialiased;
+    margin-bottom: 10px;
+    padding: 5px;
+}
+
+.edit-mode{
+    display: flex;
+    justify-content: space-between;
+}
+.TaskItem-button{
+    margin: 0 5px;
+    border-radius: 50%;
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+}
+
+.TaskItem-buttons{
+    display: flex;
+    align-items: center;
+}
+
+.TaskItem-button img{
+    width: 16px;
+    height: 16px;
+}
