@@ -1,7 +1,7 @@
 # Easy Todo app with React Redux, and Firebase
 A simple easy todo app example built with [React Redux](https://github.com/reactjs/react-redux), and [Firebase](https://firebase.google.com/).
 
-Demo link is here https://easy-todo-app-2fc3d.firebaseapp.com
+Demo link is here - [To-do-live-app](https://easy-todo-app-2fc3d.firebaseapp.com)
 
 
 ## Features
