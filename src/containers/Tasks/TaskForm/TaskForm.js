@@ -18,7 +18,6 @@ class TaskForm extends Component {
     handleSubmit = (event) => {
         event.preventDefault();
         if(this.state.value) {
-            console.log('this.props.userId', this.props.userId);
             this.props.createTask(this.state.value, this.props.userId);
             this.setState({value: ''})
         }

@@ -20,11 +20,9 @@ export const editTaskAction = (taskTitle, completeFlag, docName) => {
 export const editTask = (task, taskTitle, userId) => {
     return dispatch => {
         axios.patch(`https://easy-todo-app-2fc3d.firebaseio.com/${userId}/${task.docName}.json`, {title: taskTitle, completeFlag: task.completeFlag}).then(res => {
-            console.log('res', res);
             dispatch(editTaskAction(taskTitle, task.completeFlag, task.docName))
         })
         .catch(function (error) {
-            console.log('error', error);
         });
     }
 };
@@ -39,11 +37,9 @@ export const deleteTaskAction = (docName) => {
 export const deleteTask = (task, userId) => {
     return dispatch => {
         axios.delete(`https://easy-todo-app-2fc3d.firebaseio.com/${userId}/${task.docName}.json`).then(res => {
-            console.log('delete result', res);
             dispatch(deleteTaskAction(task.docName))
         })
             .catch(function (error) {
-                console.log('error', error);
             });
     }
 };
@@ -75,6 +71,12 @@ const handleSignInWithGoogle = (userData, tasksData) => {
     }
 };
 
+export const getTasksFromLocalStorage = () => {
+    return {
+        type: actionTypes.GET_TASKS_FROM_LOCAL_STORAGE,
+    }
+};
+
 const handleSignOut = () => {
     localStorage.removeItem('userId');
     localStorage.removeItem('tasks');
@@ -92,14 +94,11 @@ export const signInWithGoogle = () => {
             const token = result.credential.accessToken;
             // The signed-in user info.
             const userData = result.user;
-            console.log('user uid', userData.uid);
             localStorage.setItem('userId', userData.uid);
             axios.get(`https://easy-todo-app-2fc3d.firebaseio.com/${userData.uid}.json`).then(tasksData => {
-                console.log('user Tasks', tasksData.data);
                 dispatch(handleSignInWithGoogle(userData, tasksData.data));
             })
             .catch(function (error) {
-                console.log('error', error);
             });
             // dispatch(handleSignInWithGoogle(user));
             // dispatch(getTasksFromFirebase(user));
@@ -118,11 +117,9 @@ export const signInWithGoogle = () => {
 export const getTasksFromFirebase = (userData) => {
     return dispatch => {
         axios.get(`https://easy-todo-app-2fc3d.firebaseio.com/${userData.user.uid}.json`).then(res => {
-            console.log('res', res);
             dispatch(handleSignInWithGoogle(userData));
         })
         .catch(function (error) {
-          console.log('error', error);
         });
     }
 };
@@ -131,11 +128,9 @@ export const createTask = (taskTitle, userId, completeFlag=false) => {
     return dispatch => {
         //  TODO: if authenticated then save in server else not required
         axios.post(`https://easy-todo-app-2fc3d.firebaseio.com/${userId}.json`, {title: taskTitle, completeFlag}).then(res => {
-            console.log('res', res);
             dispatch(saveTask(taskTitle, res.data.name))
         })
         .catch(function (error) {
-          console.log('error', error);
         });
     }
 };

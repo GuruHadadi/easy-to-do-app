@@ -8,7 +8,8 @@ import {
     activeItemsList,
     undoTaskDelete,
     signInWithGoogle,
-    signOutGoogle
+    signOutGoogle,
+    getTasksFromLocalStorage
 } from "../../../store/actions";
 import TaskItem from "../../../components/Tasks/TaskItem/TaskItem";
 import TaskList from "../../../components/Tasks/TasksList/TasksList";
@@ -23,6 +24,10 @@ class TaskTable extends Component {
         show: false,
         searchKey: ''
     };
+
+    componentDidMount(){
+        this.props.getTasksFromLocalStorage()
+    }
 
     handleEdit = (task, name) => {
         this.props.editTask(task, name, this.props.userId);
@@ -59,9 +64,7 @@ class TaskTable extends Component {
 
     render() {
         //logic..
-        // let filteredTasks = this.props.tasks;
-        let filteredTasks = JSON.parse(localStorage.getItem('tasks'));
-        // console.log('localStorage.getItem', JSON.parse(localStorage.getItem('tasks')));
+        let filteredTasks = this.props.tasks;
         if (filteredTasks && this.state.searchKey !== '') {
             filteredTasks = filteredTasks.filter(task => {
                 return task.title.includes(this.state.searchKey)
@@ -129,7 +132,8 @@ const mapDispatchToProps = {
     activeItemsList,
     undoTaskDelete,
     signInWithGoogle,
-    signOutGoogle
+    signOutGoogle,
+    getTasksFromLocalStorage
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(TaskTable);
