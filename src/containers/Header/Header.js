@@ -19,7 +19,7 @@ class Header extends Component{
         return (
             <div>
                 <div className={'header'}>
-                    <span>Easy To Do App</span>
+                    <h1>Easy To Do App</h1>
                     <span>{this.props.authenticated ? 'Welcome '+this.props.userName : null}</span>
                     {button}
                 </div>

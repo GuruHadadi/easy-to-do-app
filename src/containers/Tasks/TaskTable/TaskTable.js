@@ -9,7 +9,8 @@ import {
     undoTaskDelete,
     signInWithGoogle,
     signOutGoogle,
-    getTasksFromLocalStorage
+    getTasksFromLocalStorage,
+    deleteTaskStart
 } from "../../../store/actions";
 import TaskItem from "../../../components/Tasks/TaskItem/TaskItem";
 import TaskList from "../../../components/Tasks/TasksList/TasksList";
@@ -35,16 +36,29 @@ class TaskTable extends Component {
 
 
     handleDelete = (task) => {
-        this.props.deleteTask(task, this.props.userId);
+        this.props.deleteTaskStart(task, this.props.userId);
+        // this.props.deleteTask(task, this.props.userId);
         this.setState({show: true});
-        setTimeout(() => {
-            this.setState({show: false})
-        }, 5000);
+        this.timerDelete = setTimeout(() => {
+            this.handleFirebaseDelete(task, this.props.userId);
+        }, 3000);
+    };
+
+
+
+    handleFirebaseDelete = (task) => {
+        this.props.deleteTask(task, this.props.userId);
+        this.setState({show: false});
     };
 
     handleUndoDeleteTask = () => {
-        let task = this.props.lastDeletedItem;
-        this.props.createTask(task.title, this.props.userId, task.completeFlag);
+        if(this.timerDelete) {
+            clearTimeout(this.timerDelete);
+            this.timerDelete = null;
+        }
+        // let task = this.props.lastDeletedItem;
+        this.props.undoTaskDelete();
+        // this.props.createTask(task.title, this.props.userId, task.completeFlag);
         // this.props.undoTaskDelete();
         // this.props.undoTaskDelete();
         this.setState({show: false});
@@ -72,7 +86,7 @@ class TaskTable extends Component {
         }
         return (
             <div>
-                <div className='TaskTable'>
+                <div className='TaskTable' >
                     <Modal show={this.state.show}>
                         <p>Task Successfully Deleted !</p>
                         <button onClick={this.handleUndoDeleteTask}>UNDO</button>
@@ -133,7 +147,8 @@ const mapDispatchToProps = {
     undoTaskDelete,
     signInWithGoogle,
     signOutGoogle,
-    getTasksFromLocalStorage
+    getTasksFromLocalStorage,
+    deleteTaskStart
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(TaskTable);

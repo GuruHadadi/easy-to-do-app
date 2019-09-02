@@ -3,7 +3,7 @@ import './TasksList.scss';
 
 const tasksList = (props) => {
     return (
-        <ul>
+        <ul style={{padding: '10px'}}>
             {props.children}
         </ul>
     )

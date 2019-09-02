@@ -63,14 +63,29 @@ const reducer = (state = initialState, action) => {
                 ...state,
                 tasks: modifiedArr,
                 tasksCopy: modifiedArr,
+                lastDeletedItem: null,
+                lastDeletedItemIndex: null
+            };
+        case actionTypes.START_DELETE_TASK:
+            let lastDelItem1 = null;
+            const modifiedArr3 = [...state.tasks].filter((v, i) => {
+                if(v.docName === action.payload.docName)
+                    lastDelItem1 = i;
+                return v.docName !== action.payload.docName
+            });
+            return {
+                ...state,
+                tasks: modifiedArr3,
+                tasksCopy: modifiedArr3,
                 lastDeletedItem: state.tasks.find(v => v.docName === action.payload.docName),
-                lastDeletedItemIndex: lastDelItem
+                lastDeletedItemIndex: lastDelItem1
             };
         case actionTypes.UNDO_TASK_DELETE:
             const modifiedArr1 = [...state.tasks];
             // modifiedArr1.splice(state.lastDeletedItemIndex, state.lastDeletedItem.indexTask,0,state.lastDeletedItem);
             console.log('state.lastDeletedItem', state.lastDeletedItem);
-            modifiedArr1.splice(state.lastDeletedItem.indexTask, 0, state.lastDeletedItem);
+            console.log('state.lastDeletedItemIndex', state.lastDeletedItemIndex);
+            modifiedArr1.splice(state.lastDeletedItemIndex, 0, state.lastDeletedItem);
             return {
                 ...state,
                 tasks: modifiedArr1,

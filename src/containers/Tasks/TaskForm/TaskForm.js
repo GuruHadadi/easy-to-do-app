@@ -31,7 +31,7 @@ class TaskForm extends Component {
 
     render() {
         return (
-            <div style={{padding: '20px'}}>
+            <div>
                 <form onSubmit={this.handleSubmit}>
                     <input
                         // disabled={!this.props.authenticated}

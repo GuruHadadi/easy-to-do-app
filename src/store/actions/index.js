@@ -44,11 +44,19 @@ export const deleteTask = (task, userId) => {
     }
 };
 
+export const deleteTaskStart = (task, userId) => {
+    return {
+        type: actionTypes.START_DELETE_TASK,
+        payload: { docName: task.docName }
+    }
+};
+
 export const undoTaskDelete = () => {
     return {
         type: actionTypes.UNDO_TASK_DELETE,
     }
 };
+
 
 export const toggleComplete = (indexTask, completedFlag) => {
     return {

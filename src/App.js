@@ -9,9 +9,7 @@ import './App.scss';
 const App = ( props ) => {
     let defaultProject = firebase.initializeApp(firebaseConfig);
     const database = firebase.database();
-    let x = database.ref('text').on('value', (snapshot) => {
-        console.log('snapshot', snapshot.val());
-    });
+    let x = database.ref('text').on('value', (snapshot) => {});
     return (
         <div className='App'>
             <Header {...props}/>

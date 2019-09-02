@@ -3,3 +3,11 @@
   max-width: 800px;
   padding: 10px;
 }
+
+html{
+  box-sizing: border-box;
+}
+
+*,*:before,*:after{
+  box-sizing: inherit;
+}
